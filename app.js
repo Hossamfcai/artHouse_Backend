@@ -2,10 +2,10 @@ const express = require("express");
 const connectDB = require("./Config/dbConfig");
 const departmentRoute = require("./Routes/deparmentsRoute");
 const productRoute = require("./Routes/productsRoute");
+const aboutRoute = require("./Routes/aboutRoute");
 const port = 3000;
 const cors = require("cors");
 const app = express();
-
 
 app.use(cors());
 app.use(express.json());
@@ -14,6 +14,7 @@ connectDB();
 
 app.use("/departments", departmentRoute);
 app.use("/products", productRoute);
+app.use("/about", aboutRoute);
 
 app.listen(port, () => {
   console.log("server started at port 3000");
