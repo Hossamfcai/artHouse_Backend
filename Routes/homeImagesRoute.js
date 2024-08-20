@@ -1,12 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const {
-  createImages,
-  getImages,
-} = require("../Controllers/homeImagesController");
+const homeImages = require("../Controllers/homeImagesController");
 
-router.post("/", createImages);
-router.get("/", getImages);
+router.post("/", homeImages.createImages);
+router.get("/", homeImages.getImages);
+router.delete("/deleteImage/:imageId", homeImages.deleteImage);
 
 module.exports = router;

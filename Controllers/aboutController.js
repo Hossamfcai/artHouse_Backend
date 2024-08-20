@@ -1,6 +1,7 @@
 const aboutModel = require("../Model/aboutModel");
 const multerConfig = require("../Config/multerConfig");
 
+//add header image
 exports.addHeadrImage = async (req, res) => {
   try {
     multerConfig.single("headerImg")(req, res, async function (err) {
@@ -48,12 +49,18 @@ exports.updateHeaderImage = async (req, res) => {
         "66c0f13c87a347345b505901",
         Img
       );
-      res.status(201).json(updateHeader);
+      res.status(201).json({
+        status: "success",
+        data: {
+          updateHeader,
+        },
+      });
     });
   } catch (err) {
     res.status(401).send(err.message);
   }
 };
+
 exports.updatedFirstImage = async (req, res) => {
   try {
     multerConfig.single("firstImage")(req, res, async function (err) {
@@ -73,6 +80,7 @@ exports.updatedFirstImage = async (req, res) => {
     res.status(401).send(err.message);
   }
 };
+
 exports.updateSecondImage = async (req, res) => {
   try {
     multerConfig.single("secondImage")(req, res, async function (err) {
@@ -90,5 +98,18 @@ exports.updateSecondImage = async (req, res) => {
     });
   } catch (err) {
     res.status(401).send(err.message);
+  }
+};
+
+exports.updateInfoOfAbout = async (req, res) => {
+  try {
+    const updatedData = await aboutModel.findByIdAndUpdate(
+      "66c0f13c87a347345b505901",
+      req.body,
+      { new: true }
+    );
+    res.status(201).json({ msg: "Updated successfully", updatedData });
+  } catch (err) {
+    res.status(401).send(err);
   }
 };

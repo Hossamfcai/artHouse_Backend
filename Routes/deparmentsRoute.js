@@ -1,11 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const {
-  createDepartment,
-  getDepartments,
-} = require("../Controllers/departmentsController");
+const department = require("../Controllers/departmentsController");
 
-router.post("/", createDepartment);
-router.get("/", getDepartments);
+router.post("/", department.createDepartment);
+router.get("/", department.getDepartments);
+router.delete("/deleteDepartment/:departmentId", department.deleteDepartment);
 
 module.exports = router;
