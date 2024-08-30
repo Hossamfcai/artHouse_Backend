@@ -6,7 +6,7 @@ exports.addHeadrImage = async (req, res) => {
   try {
     multerConfig.single("headerImg")(req, res, async function (err) {
       if (err) {
-        return res.status(400).send(err);
+        return res.status(400).json(err);
       }
       const Img = {
         headerImg: `images/req.file.headerImg`,
@@ -15,7 +15,7 @@ exports.addHeadrImage = async (req, res) => {
       res.status(201).json(addImage);
     });
   } catch (err) {
-    res.status(400).send(err);
+    res.status(400).json(err);
   }
 };
 
@@ -24,7 +24,7 @@ exports.createAbout = async (req, res) => {
     const data = await aboutModel.create(req.body);
     res.status(201).json(data);
   } catch (err) {
-    res.status(401).send(err.message);
+    res.status(401).json(err.message);
   }
 };
 exports.getAbout = async (req, res) => {
@@ -32,7 +32,7 @@ exports.getAbout = async (req, res) => {
     const data = await aboutModel.find();
     res.status(201).json(data);
   } catch (err) {
-    res.status(401).send(err.message);
+    res.status(401).json(err.message);
   }
 };
 
@@ -49,15 +49,11 @@ exports.updateHeaderImage = async (req, res) => {
         "66c0f13c87a347345b505901",
         Img
       );
-      res.status(201).json({
-        status: "success",
-        data: {
-          updateHeader,
-        },
-      });
+      const aboutData = await aboutModel.find();
+      res.status(201).json(aboutData);
     });
   } catch (err) {
-    res.status(401).send(err.message);
+    res.status(401).json(err.message);
   }
 };
 
@@ -74,10 +70,11 @@ exports.updatedFirstImage = async (req, res) => {
         "66c0f13c87a347345b505901",
         Img
       );
-      res.status(201).json(updateFirstImage);
+      const aboutData = await aboutModel.find();
+      res.status(201).json(aboutData);
     });
   } catch (err) {
-    res.status(401).send(err.message);
+    res.status(401).json(err.message);
   }
 };
 
@@ -85,7 +82,7 @@ exports.updateSecondImage = async (req, res) => {
   try {
     multerConfig.single("secondImage")(req, res, async function (err) {
       if (err) {
-        return res.status(400).send(err);
+        return res.status(400).json(err);
       }
       const Img = {
         secondImage: `images/${req.file.filename}`,
@@ -94,10 +91,11 @@ exports.updateSecondImage = async (req, res) => {
         "66c0f13c87a347345b505901",
         Img
       );
-      res.status(201).json(updateSecondImage);
+      const aboutData = await aboutModel.find();
+      res.status(201).json(aboutData);
     });
   } catch (err) {
-    res.status(401).send(err.message);
+    res.status(401).json(err.message);
   }
 };
 
@@ -108,8 +106,9 @@ exports.updateInfoOfAbout = async (req, res) => {
       req.body,
       { new: true }
     );
-    res.status(201).json({ msg: "Updated successfully", updatedData });
+    const aboutData = await aboutModel.find();
+    res.status(201).json(aboutData);
   } catch (err) {
-    res.status(401).send(err);
+    res.status(401).json(err);
   }
 };

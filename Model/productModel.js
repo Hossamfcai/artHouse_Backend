@@ -13,6 +13,10 @@ const productsSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    departmentName: {
+      type: String,
+      required: true,
+    },
     department: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "departments",

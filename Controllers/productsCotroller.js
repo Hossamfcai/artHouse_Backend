@@ -13,9 +13,11 @@ exports.addProduct = async (req, res) => {
         title: req.body.title,
         price: req.body.price,
         department: req.body.department,
+        departmentName: req.body.departmentName,
       };
       const product = await productsModel.create(productData);
-      res.status(201).json(product);
+      const products = await productsModel.find();
+      res.status(201).json(products);
     });
   } catch (err) {
     res.status(401).send(err);
@@ -61,18 +63,20 @@ exports.updatedProductImage = async (req, res) => {
       if (err) {
         return res.status(400).send(err);
       }
-      const Img = {
-        filename: `images/${req.file.filename}`,
-      };
-      const updateProductImage = await productsModel.findByIdAndUpdate(
-        req.params.productId,
-        Img,
-        { new: true }
-      );
-      res.status(201).json(updateProductImage);
+      if (req.file.filename !== undefined) {
+        const Img = {
+          filename: `images/${req.file.filename}`,
+        };
+        const updateProductImage = await productsModel.findByIdAndUpdate(
+          req.params.productId,
+          Img,
+          { new: true }
+        );
+        res.status(201).json(updateProductImage);
+      }
     });
   } catch (err) {
-    res.status(401).send(err.message);
+    res.status(401).json({ err: err.message });
   }
 };
 
@@ -81,9 +85,8 @@ exports.deleteProduct = async (req, res) => {
     const deletedProduct = await productsModel.findByIdAndDelete(
       req.params.productId
     );
-    res
-      .status(201)
-      .json({ msg: "Product has been deleted successfully", deletedProduct });
+    const products = await productsModel.find();
+    res.status(201).json(products);
   } catch (err) {
     res.status(400).send({
       msg: err.message,
