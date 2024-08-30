@@ -12,7 +12,8 @@ exports.createBranch = async (req, res) => {
         branchImg: `images/${req.file.filename}`,
       };
       const branch = await branchesModel.create(branchData);
-      res.status(201).json(branch);
+      const branches = await branchesModel.find();
+      res.status(201).json(branches);
     });
   } catch (err) {
     res.status(401).send(err);
@@ -71,9 +72,8 @@ exports.deleteBranch = async (req, res) => {
     const deletedBranch = await branchesModel.findByIdAndDelete(
       req.params.branchId
     );
-    res
-      .status(201)
-      .json({ msg: "Branch has been deleted successfully", deletedBranch });
+    const branches = await branchesModel.find();
+    res.status(201).json(branches);
   } catch (err) {
     res.status(401).send({
       err: err.message,
